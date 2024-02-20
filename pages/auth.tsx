@@ -1,6 +1,7 @@
 import  { useCallback, useState } from 'react'
 import Image from 'next/image'
 import Inputs from '@/components/Inputs'
+import axios from 'axios';
 
 export default function auth() {
 
@@ -14,6 +15,16 @@ export default function auth() {
   const toggleVariant = useCallback(()=>{
     setVariant((currentVariant) => currentVariant === 'login' ? 'register':'login')
   },[])
+
+  const register =  useCallback(async()=>{
+    try{
+        await axios.post('/api/register',)
+    }
+    catch(error){
+      console.log(error);
+    }
+    
+  },[]);
 
   return (
     <div className='relative h-full w-full bg-[url(/images/hero.jpg)] bg-center bg-fixed bg-cover'>
