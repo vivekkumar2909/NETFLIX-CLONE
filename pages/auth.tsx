@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useCallback, useState } from 'react'
 import Image from 'next/image'
 import Inputs from '@/components/Inputs'
@@ -64,9 +65,9 @@ export default function auth() {
 
         <div className='flex justify-center'>
           <div className='bg-black bg-opacity-70 p-16 self-center mt-3 lg:w-2/5 lg:max-w-md rounded-2xl w-full'>
-            <h2 className='text-white text-4xl mb-8 font-semibold text-center'>
+            <h2 className='text-white text-4xl mb-8 font-semibold font-serif text-center'>
 
-              {variant === 'login' ? 'Sign in' : 'Register'}
+              {variant === 'login' ? 'Sign In' : 'Register'}
             </h2>
             <div className='flex flex-col gap-4 '>
               {variant === 'register' && (
