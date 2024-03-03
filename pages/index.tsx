@@ -1,27 +1,28 @@
+import BillBoard from '@/components/BillBoard';
+import MoviesList from '@/components/MoviesList';
 import Navbar from '@/components/Navbar';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { NextPageContext } from "next";
-import {getSession, signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { Inter } from "next/font/google";
- 
+
 
 
 const inter = Inter({ subsets: ["latin"] });
 
 
-export async function getServerSideProps(context : NextPageContext){
+export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
 
-  if(!session)
-  {
+  if (!session) {
     return {
-      redirect :{
-        destination : '/auth',
-        permanent : false,
+      redirect: {
+        destination: '/auth',
+        permanent: false,
       }
     }
   }
-  
+
   return {
     props: {}
   }
@@ -29,7 +30,7 @@ export async function getServerSideProps(context : NextPageContext){
 
 export default function Home() {
 
-  const {data : user}  =useCurrentUser();
+  const { data: user } = useCurrentUser();
 
   return (
     // <main
@@ -143,8 +144,11 @@ export default function Home() {
     // </main>
 
     <>
-    <Navbar/>
-    
+      <Navbar />
+      <BillBoard />
+      <div className='pb-40'>
+        <MoviesList />
+      </div>
     </>
   );
 }
