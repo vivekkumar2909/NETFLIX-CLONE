@@ -3,6 +3,7 @@ import MoviesList from '@/components/MoviesList';
 import Navbar from '@/components/Navbar';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import useMoviesList from '@/hooks/useMoviesList'; 
+import useFavorites from '@/hooks/useFavorites'; 
 import { NextPageContext } from "next";
 import { getSession, signOut } from "next-auth/react";
 import { Inter } from "next/font/google";
@@ -33,6 +34,8 @@ export default function Home() {
 
   // const { data: user } = useCurrentUser();
   const {data:movies = []} = useMoviesList()
+  const {data:favorites = []} = useFavorites()
+  // console.log("len",movies.length)
 
   return (
     
@@ -41,7 +44,8 @@ export default function Home() {
       <Navbar />
       <BillBoard />
       <div className='pb-40'>
-        <MoviesList data={movies} title='Trending Movies'  />
+        <MoviesList data={movies} title='Trending Now'  />
+        <MoviesList data={favorites} title='My List'  />
       </div>
     </>
   );
