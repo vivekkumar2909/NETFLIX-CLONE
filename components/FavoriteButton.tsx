@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback,useEffect, useMemo } from 'react';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/outline';
 
 import useCurrentUser from '@/hooks/useCurrentUser';
@@ -23,11 +23,15 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
   const toggleFavorites = useCallback(async () => {
     let response;
 
+    console.log(isFavorite);
     if (isFavorite) {
+    console.log('Click');
       response = await axios.delete('/api/favorite', { data: { movieId } });
     } else {
       response = await axios.post('/api/favorite', { movieId });
     }
+
+    // console.log('hii', response?.data?.favoriteIds);
 
     const updatedFavoriteIds = response?.data?.favoriteIds;
 

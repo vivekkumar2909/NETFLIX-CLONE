@@ -1,4 +1,5 @@
 import React from 'react';
+// import { signOut } from 'next-auth/react';
 
 interface NavbarItemProps {
   label: string;
