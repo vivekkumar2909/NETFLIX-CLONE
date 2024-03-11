@@ -7,7 +7,7 @@ import serverAuth from "@/lib/serverAuth";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'POST') {
-      const { Curr_user } = await serverAuth(req);
+      const { currentUser } = await serverAuth(req);
 
       const { movieId } = req.body;
   
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
       const user = await prismadb.user.update({
         where: {
-          email: Curr_user.email || '',
+          email: currentUser.email || '',
         },
         data: {
           favoriteIds: {
@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'DELETE') {
-      const { Curr_user } = await serverAuth(req);
+      const { currentUser } = await serverAuth(req);
 
       const { movieId } = req.body;
 
@@ -50,11 +50,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error('Invalid ID');
       }
 
-      const updatedFavoriteIds = without(Curr_user.favoriteIds, movieId);
+      const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
 
       const updatedUser = await prismadb.user.update({
         where: {
-          email: Curr_user.email || '',
+          email: currentUser.email || '',
         },
         data: {
           favoriteIds: updatedFavoriteIds,
@@ -67,6 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end();
   } catch (error) {
     console.log(error);
+    console.log("Hiii")
 
     return res.status(500).end();
   }

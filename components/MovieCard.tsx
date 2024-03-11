@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { IoChevronDownCircleOutline, IoPlayCircleOutline } from "react-icons/io5";
 import FavoriteButton from './FavoriteButton'
+import { useRouter } from "next/router";
 
 interface MovieCardProps{
     data: Record<string, any>;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
+  const router = useRouter();
+  const redirectToWatch = useCallback(() => router.push(`/watch/${data.id}`), [router, data.id]);
     return (
         <div className="group bg-zinc-900 col-span relative h-[12vw]">
           <img onClick={()=>{}} src={data.thumbnailUrl} alt="Movie" draggable={false} className="
@@ -39,7 +42,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
             group-hover:translate-x-[2vw]
             group-hover:opacity-100
           ">
-            <img onClick={()=>{}} src={data.thumbnailUrl} alt="Movie" draggable={false} className="
+            <img onClick={()=> redirectToWatch} src={data.thumbnailUrl} alt="Movie" draggable={false} className="
               cursor-pointer
               object-cover
               transition

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useCallback,useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/outline';
 
 import useCurrentUser from '@/hooks/useCurrentUser';
@@ -12,47 +12,37 @@ interface FavoriteButtonProps {
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
   const { mutate: mutateFavorites } = useFavorites();
 
-  const { data: Curr_user, mutate } = useCurrentUser();
+  const { data: currentUser, mutate } = useCurrentUser();
 
   const isFavorite = useMemo(() => {
-    const list = Curr_user?.favoriteIds || [];
+    const list = currentUser?.favoriteIds || [];
 
     return list.includes(movieId);
-  }, [Curr_user, movieId]);
+  }, [currentUser, movieId]);
 
   const toggleFavorites = useCallback(async () => {
     let response;
 
-    console.log(isFavorite);
     if (isFavorite) {
-    console.log('Click');
       response = await axios.delete('/api/favorite', { data: { movieId } });
     } else {
+      console.log('movie',movieId)
       response = await axios.post('/api/favorite', { movieId });
     }
 
-    // console.log('hii', response?.data?.favoriteIds);
-
     const updatedFavoriteIds = response?.data?.favoriteIds;
 
-    mutate({
-      ...Curr_user,
+    mutate({ 
+      ...currentUser, 
       favoriteIds: updatedFavoriteIds,
     });
     mutateFavorites();
-  }, [movieId, isFavorite, Curr_user, mutate, mutateFavorites]);
-
+  }, [movieId, isFavorite, currentUser, mutate, mutateFavorites]);
+  
   const Icon = isFavorite ? CheckIcon : PlusIcon;
 
   return (
-    <div onClick={toggleFavorites} className="
-    cursor-pointer 
-    group/item w-6 h-6 
-    lg:w-10 lg:h-10 
-    border-white border-2 
-    rounded-full flex justify-center 
-    items-center transition 
-    hover:border-neutral-300">
+    <div onClick={toggleFavorites} className="cursor-pointer group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
       <Icon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
     </div>
   )
